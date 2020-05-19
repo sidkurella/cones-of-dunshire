@@ -14,11 +14,11 @@
 </div>
 <table>
 <form action="{{ url_for('remove_card') }}" method="post">
-{% for id, card in cards.items() %}
+{% for card in cards %}
     <tr>
         <td>{{ card.text }}</td>
         <td>
-            <input class="button" type="submit" name="{{ id }}" value="Remove">
+            <input class="button" type="submit" name="{{ card.id }}" value="Remove">
         </td>
     </tr>
 {% endfor %}

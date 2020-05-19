@@ -25,7 +25,7 @@ def main_menu():
 @app.route('/hand')
 def hand():
     if not session.get('cards', False):
-        session['cards'] = {}
+        session['cards'] = []
         session['next_card'] = 0
 
     return render_template('hand.html', cards=session['cards'])
@@ -37,20 +37,21 @@ def draw():
             'id': "card" + str(session['next_card']),
             'text': random.choice(deck),
         }
-        session['cards'][new_card['id']] = new_card
+        session['cards'].append(new_card)
         session['next_card'] += 1
     elif request.form.get('clear', False):
-        session['cards'] = {}
+        session['cards'] = []
         session['next_card'] = 0
 
     return redirect(url_for('hand'))
 
 @app.route('/remove_card', methods=["POST"])
 def remove_card():
-    new_cards = {}
-    for name in session['cards']:
+    new_cards = []
+    for card in session['cards']:
+        name = card['id']
         if not request.form.get(name, False):
-            new_cards[name] = session['cards'][name]
+            new_cards.append(card)
     session['cards'] = new_cards
 
     return redirect(url_for('hand'))
