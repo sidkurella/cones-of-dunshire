@@ -83,6 +83,8 @@ def player_form():
                     Role(int(request.form[f'player_{i}_role'])),
                 ).to_json()
             )
+        session['dice_3'] = []
+        session['dice'] = []
         return redirect(url_for('game'))
     elif request.form.get('delete_players', False):
         session['player_ct'] = 0
@@ -92,8 +94,22 @@ def player_form():
 def game():
     return render_template(
         'game.html',
-        players=(Player.from_json(x) for x in session['players'])
+        players=(Player.from_json(x) for x in session['players']),
+        dice_3=session['dice_3'],
+        dice=session['dice'],
+        dice_total=sum(session['dice_3']),
     )
+
+@app.route('/roll', methods=['POST'])
+def dice_roll():
+    session['dice_3'] = [
+        random.randint(1, 6) for _ in range(3)
+    ]
+    dice_ct = sum(session['dice_3'])
+    session['dice'] = [
+        random.randint(1, 6) for _ in range(dice_ct)
+    ]
+    return redirect(url_for('game'))
 
 if __name__ == "__main__":
     app.run()

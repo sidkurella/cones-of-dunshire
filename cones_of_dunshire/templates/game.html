@@ -12,6 +12,29 @@
 </img>
 <h2>Game</h2>
 </div>
+<form action="{{ url_for('dice_roll') }}" method="post">
+    <input class="button" type="submit" name="roll" value="Roll Dice"/>
+</form>
+{% if dice_3 %}
+<h3>The Dice You Roll to See How Many Dice You Roll</h3>
+{% endif %}
+{% for d in dice_3 %}
+<table id="dice_3">
+    <tr>
+        <td>{{d}}</td>
+    </tr>
+</table>
+{% endfor %}
+{% if dice %}
+    <h3>The Actual Dice ({{ dice_total }} Dice)</h3>
+{% endif %}
+{% for d in dice %}
+<table id="dice">
+    <tr>
+        <td>{{d}}</td>
+    </tr>
+</table>
+{% endfor %}
 <h2>Players</h2>
 <table id="players">
     {% for player in players %}
