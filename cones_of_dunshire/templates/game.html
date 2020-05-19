@@ -3,6 +3,11 @@
 <title>Cones of Dunshire</title>
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+    tr.child_row td {
+        padding-left:20px;
+    }
+</style>
 </head>
 <body>
 <div id="main" style="text-align: center">
@@ -54,9 +59,20 @@
 <table id="players">
     {% for player in players %}
     <tr>
-        <td>{{ player.name }}:</td>
-        <td>{{ player.role.__str__() }}</td>
+        <td><strong>{{ player.name }}:</strong></td>
+        <td><em>{{ player.role|string }}</em></td>
     </tr>
+    {% for r in resources %}
+        <form action="{{ url_for('resource_update', player=player.id, resource=r.value) }}" method="post">
+            <tr class="child_row">
+                <td>{{ r|string }}:</td>
+                <td>{{ player.resources[r.value] }}</td>
+                <td><input class="button" type="submit" name="minus" value="-"/></td>
+                <td><input class="button" type="submit" name="reset" value="0"/></td>
+                <td><input class="button" type="submit" name="plus" value="+"/></td>
+            </tr>
+        </form>
+    {% endfor %}
     {% endfor %}
 </table>
 </body>

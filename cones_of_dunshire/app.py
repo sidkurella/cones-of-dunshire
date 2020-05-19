@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 from flask import Flask, render_template, flash, request, redirect, url_for, session
 try:
-    from player import Player, Role
+    from player import Player, Role, Resource
 except:
-    from .player import Player, Role
+    from .player import Player, Role, Resource
 import random
 
 app = Flask(__name__)
@@ -79,6 +79,7 @@ def player_form():
         for i in range(session['player_ct']):
             session['players'].append(
                 Player(
+                    i,
                     request.form[f'player_{i}'],
                     Role(int(request.form[f'player_{i}_role'])),
                 ).to_json()
@@ -94,10 +95,11 @@ def player_form():
 def game():
     return render_template(
         'game.html',
-        players=(Player.from_json(x) for x in session['players']),
+        players=[Player.from_json(x) for x in session['players']],
         dice_3=session['dice_3'],
         dice=session['dice'],
         dice_total=sum(session['dice_3']),
+        resources=list(Resource),
     )
 
 @app.route('/roll', methods=['POST'])
@@ -109,6 +111,19 @@ def dice_roll():
     session['dice'] = [
         random.randint(1, 6) for _ in range(dice_ct)
     ]
+    return redirect(url_for('game'))
+
+@app.route('/resource_update/<int:player>/<int:resource>', methods=['POST'])
+def resource_update(player, resource):
+    p = Player.from_json(session['players'][player])
+    if request.form.get('plus', False):
+        p.resources[resource] += 1
+    elif request.form.get('minus', False):
+        p.resources[resource] -= 1
+    elif request.form.get('reset', False):
+        p.resources[resource] = 0
+    session['players'][player] = p.to_json()
+    session.modified = True # Since we modify a mutable object
     return redirect(url_for('game'))
 
 if __name__ == "__main__":
