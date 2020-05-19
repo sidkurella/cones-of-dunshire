@@ -17,24 +17,37 @@
 </form>
 {% if dice_3 %}
 <h3>The Dice You Roll to See How Many Dice You Roll</h3>
-{% endif %}
-{% for d in dice_3 %}
 <table id="dice_3">
     <tr>
-        <td>{{d}}</td>
+    {% for d in dice_3 %}
+        <td>
+            <img style="width: 100px"
+                 src="{{ url_for('static', filename='die_'~ d ~'.png') }}"
+                 alt="{d}">
+        </td>
+
+    {% endfor %}
     </tr>
 </table>
-{% endfor %}
-{% if dice %}
-    <h3>The Actual Dice ({{ dice_total }} Dice)</h3>
 {% endif %}
-{% for d in dice %}
+{% if dice %}
+<h3>The Actual Dice ({{ dice_total }} Dice)</h3>
 <table id="dice">
     <tr>
-        <td>{{d}}</td>
+    {% for d in dice %}
+        <td>
+            <img style="width: 100px"
+                 src="{{ url_for('static', filename='die_'~ d ~'.png') }}"
+                 alt="{d}">
+        </td>
+        {% if loop.index % 6 == 0 and loop.index != 0 %}
+            </tr>
+            <tr>
+        {% endif %}
+    {% endfor %}
     </tr>
 </table>
-{% endfor %}
+{% endif %}
 <h2>Players</h2>
 <table id="players">
     {% for player in players %}
