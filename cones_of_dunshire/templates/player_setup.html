@@ -1,0 +1,35 @@
+<!doctype html>
+<head>
+<title>Cones of Dunshire</title>
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div id="main" style="text-align: center">
+<img style="display: block; margin-left: auto; margin-right: auto; width: 50%"
+     src="{{ url_for('static', filename='logo.png') }}"
+     alt="Cones of Dunshire">
+</img>
+<h2>Setup players</h2>
+</div>
+<form action="{{ url_for('player_form') }}" method="post">
+    <table id="players">
+        {% for player in players %}
+        <tr>
+            <td>Player {{ player + 1 }}: </td>
+            <td><input type="text" name="player_{{ player }}" placeholder="Enter your name..."/></td>
+            <td><select type="text" name="player_{{ player }}_role">
+                {% for role in roles %}
+                    <option value="{{ role.value }}">{{role.__str__()}}</option>
+                {% endfor %}
+            </select></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <input class="button" type="submit" id="add" name="add_player" value="Add Player"/>
+    <br/>
+    <input class="button" type="submit" id="clear" name="delete_players" value="Clear"/>
+    <br/>
+    <input class="button" type="submit" name="submit" value="Start Game"/>
+</form>
+</body>

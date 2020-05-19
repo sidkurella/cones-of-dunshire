@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 from flask import Flask, render_template, flash, request, redirect, url_for, session
+try:
+    from player import Player, Role
+except:
+    from .player import Player, Role
 import random
 
 app = Flask(__name__)
@@ -20,7 +24,8 @@ def main_menu():
     if request.form.get('hand', False):
         return redirect(url_for('hand'))
     elif request.form.get('new_game', False):
-        return redirect(url_for('game'));
+        session['player_ct'] = 0
+        return redirect(url_for('player_setup'))
 
 @app.route('/hand')
 def hand():
@@ -55,6 +60,40 @@ def remove_card():
     session['cards'] = new_cards
 
     return redirect(url_for('hand'))
+
+@app.route('/player_setup', methods=["GET"])
+def player_setup():
+    return render_template(
+        "player_setup.html",
+        roles=list(Role),
+        players=range(session['player_ct']),
+    )
+
+@app.route('/player_setup', methods=["POST"])
+def player_form():
+    if request.form.get('add_player', False):
+        session['player_ct'] += 1
+        return redirect(url_for('player_setup'))
+    elif request.form.get('submit', False):
+        session['players'] = []
+        for i in range(session['player_ct']):
+            session['players'].append(
+                Player(
+                    request.form[f'player_{i}'],
+                    Role(int(request.form[f'player_{i}_role'])),
+                ).to_json()
+            )
+        return redirect(url_for('game'))
+    elif request.form.get('delete_players', False):
+        session['player_ct'] = 0
+        return redirect(url_for('player_setup'))
+
+@app.route('/game')
+def game():
+    return render_template(
+        'game.html',
+        players=(Player.from_json(x) for x in session['players'])
+    )
 
 if __name__ == "__main__":
     app.run()
