@@ -23,7 +23,8 @@
         <td>
             <img style="width: 100px"
                  src="{{ url_for('static', filename='die_'~ d ~'.png') }}"
-                 alt="{d}">
+                 alt="{{ d }}"
+                 title="{{ d }}">
         </td>
 
     {% endfor %}
@@ -38,7 +39,8 @@
         <td>
             <img style="width: 100px"
                  src="{{ url_for('static', filename='die_'~ d ~'.png') }}"
-                 alt="{d}">
+                 alt="{{ d }}"
+                 title="{{ d }}">
         </td>
         {% if loop.index % 6 == 0 and loop.index != 0 %}
             </tr>
