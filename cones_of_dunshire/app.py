@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 from flask import Flask, render_template, flash, request, redirect, url_for, session
 try:
-    from player import Player, Role, Resource
+    from player import Player, Role, Resource, Biome, Tile
 except:
-    from .player import Player, Role, Resource
+    from .player import Player, Role, Resource, Biome, Tile
 import random
 
 app = Flask(__name__)
@@ -75,6 +75,22 @@ def player_form():
         session['player_ct'] += 1
         return redirect(url_for('player_setup'))
     elif request.form.get('submit', False):
+        rows = int(request.form['board_size_r'])
+        cols = int(request.form['board_size_c'])
+        biomes = list(Biome)
+        session['board'] = [
+            [
+                Tile(
+                    r,
+                    c,
+                    Biome.OCEAN if (r == 0 or c == 0
+                        or r == (rows - 1) or c == (cols - 1)
+                    ) else random.choice(biomes[1:]),
+                    random.choice(list(Resource)),
+                    random.randint(1, 6),
+                ).to_json() for c in range(cols)
+            ] for r in range(rows)
+        ]
         session['players'] = []
         for i in range(session['player_ct']):
             session['players'].append(
@@ -100,6 +116,8 @@ def game():
         dice=session['dice'],
         dice_total=sum(session['dice_3']),
         resources=list(Resource),
+        biomes=list(Biome),
+        board=[[Tile.from_json(t) for t in x] for x in session['board']],
     )
 
 @app.route('/roll', methods=['POST'])
@@ -124,6 +142,33 @@ def resource_update(player, resource):
         p.resources[resource] = 0
     session['players'][player] = p.to_json()
     session.modified = True # Since we modify a mutable object
+    return redirect(url_for('game'))
+
+@app.route('/board_action/<int:r>/<int:c>', methods=['POST'])
+def board_action(r, c):
+    player = int(request.form['player'])
+    board = [
+        [Tile.from_json(t) for t in x]
+        for x in session['board']
+    ]
+    tile = board[r][c]
+    if request.form.get('move', False):
+        for row in board:
+            for t in row:
+                try:
+                    t.players.remove(player)
+                except ValueError:
+                    pass
+        tile.players.append(player)
+    elif request.form.get('settle', False):
+        tile.settlement = player
+    elif request.form.get('civ', False):
+        tile.civilization = player
+    board[r][c] = tile
+    session['board'] = [
+        [t.to_json() for t in r]
+        for r in board
+    ]
     return redirect(url_for('game'))
 
 if __name__ == "__main__":

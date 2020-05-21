@@ -1,6 +1,55 @@
 from enum import Enum, auto
 import json
 
+class Biome(Enum):
+    OCEAN  = 0
+    MINE   = 1
+    PLAINS = 2
+    FOREST = 3
+    DESERT = 4
+    OASIS  = 5
+
+    def __str__(self):
+        return self.name.title()
+
+class Tile:
+    def __init__(self, r, c, biome, resource, number):
+        self.r = r
+        self.c = c
+        self.biome = biome
+        self.resource = resource
+        self.number = number
+        self.settlement = None
+        self.civilization = None
+        self.players = []
+
+    def to_json(self):
+        return json.dumps({
+            'r': self.r,
+            'c': self.c,
+            'biome': self.biome.value,
+            'resource': self.resource.value,
+            'number': self.number,
+            'settlement': self.settlement,
+            'civilization': self.civilization,
+            'players': self.players
+        })
+
+    @staticmethod
+    def from_json(js):
+        d = json.loads(js)
+        t = Tile(
+            d['r'],
+            d['c'],
+            Biome(d['biome']),
+            Resource(d['resource']),
+            d['number'],
+        )
+        t.settlement = d['settlement']
+        t.civilization = d['civilization']
+        t.players = d['players']
+        return t
+
 class Role(Enum):
     LEDGERMAN = 0
     MAVERICK  = 1
@@ -48,7 +97,6 @@ class Resource(Enum):
         return any(
             self == x for x in (Resource.GEMS, Resource.IRON, Resource.COAL)
         )
-
 
 class Player:
     def __init__(self, id_number, name, role):

@@ -10,15 +10,21 @@
      src="{{ url_for('static', filename='logo.png') }}"
      alt="Cones of Dunshire">
 </img>
-<h2>Setup players</h2>
+<h2>Setup game</h2>
 </div>
 <form action="{{ url_for('player_form') }}" method="post">
+    <label for="board_size_r"><strong>Board size:</strong></label>
+    <input type="number" id="board_size_r" name="board_size_r" min="5" max="25" value="10"/>
+    x
+    <input type="number" id="board_size_c" name="board_size_c" min="5" max="25" value="10"/>
+    <br/>
     <table id="players">
         {% for player in players %}
         <tr>
             <td>Player {{ player + 1 }}: </td>
             <td><input type="text" name="player_{{ player }}" placeholder="Enter your name..."/></td>
             <td><select type="text" name="player_{{ player }}_role">
+                <option value="" disabled selected>Select your role...</option>
                 {% for role in roles %}
                     <option value="{{ role.value }}">{{role.__str__()}}</option>
                 {% endfor %}
