@@ -5,26 +5,31 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<div id="main" style="text-align: center">
-<img style="display: block; margin-left: auto; margin-right: auto; width: 50%"
-     src="{{ url_for('static', filename='logo.png') }}"
+<div id="main" style="text-align: center" class="large">
+<img src="{{ url_for('static', filename='logo_black_bg.png') }}"
      alt="Cones of Dunshire">
-</img>
-<h2>Your hand:</h2>
+<h2>Your Hand</h2>
 </div>
+<form action="{{ url_for('remove_card') }}" method="post" class="center">
 <table>
-<form action="{{ url_for('remove_card') }}" method="post">
+{% if cards %}
 {% for card in cards %}
     <tr>
         <td>{{ card.text }}</td>
+        <td style="width: 20px"></td>
         <td>
             <input class="button" type="submit" name="{{ card.id }}" value="Remove">
         </td>
     </tr>
 {% endfor %}
-</form>
+{% else %}
+    <tr>
+        <td>You have no cards.</td>
+    </tr>
+{% endif %}
 </table>
-<form action="{{ url_for('hand') }}" method="post">
+</form><br><br>
+<form action="{{ url_for('hand') }}" method="post" class="center">
     <input class="button" type="submit" name="draw" value="Draw">
     <br />
     <input class="button" type="submit" name="clear" value="Clear">

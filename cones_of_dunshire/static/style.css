@@ -10,7 +10,7 @@ body {
     margin: 0 auto;
 }
 
-h2 {
+h1, h2, h3 {
     color: #fc2;
 }
 
@@ -31,23 +31,23 @@ h2.main {
 }
 
 #main.collapse {
-    padding: 9px;
+    padding: 4px;
     border-bottom: 2px solid #fc2;
 }
 
 #main.collapse img {
     display: inline;
-    height: 80px;
+    height: 90px;
     margin: 0 -15px;
 }
 #main.collapse h2 {
     display: inline;
-    height: 80px;
-    line-height: 80px;
+    height: 90px;
+    line-height: 90px;
     position: absolute;
     top: 0;
     bottom: 0;
-    margin: 9px 0;
+    margin: 4px 0;
     padding-left: 20px;
 }
 
@@ -102,6 +102,10 @@ table input[type=button], table input[type=submit] {
     padding: 40px;
     border-left: 2px solid #fc2;
     border-top: 2px solid #fc2;
+}
+
+.center {
+    text-align: center;
 }
 
 .board_float {
