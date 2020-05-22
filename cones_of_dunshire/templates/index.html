@@ -5,16 +5,14 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<div id="main" style="text-align: center">
-<img style="display: block; margin-left: auto; margin-right: auto; width: 50%"
-     src="{{ url_for('static', filename='logo.png') }}"
+<div id="main" class="large" style="text-align: center">
+<img src="{{ url_for('static', filename='logo_black_bg.png') }}"
      alt="Cones of Dunshire">
 </img>
-<h2>A Gaming Experience by Benjamin Wyatt</h2>
+<h2 class="main">A Gaming Experience by Benjamin Wyatt</h2>
 </div>
 <form action="{{ url_for('main_menu') }}" method="post">
-    <input class="button" type="submit" name="new_game" value="New Game"/>
-    <br/>
+    <input class="button" type="submit" name="new_game" value="New Game">
     <input class="button" type="submit" name="hand" value="Your Hand">
 </form>
 </body>

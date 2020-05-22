@@ -1,4 +1,394 @@
-img {
+html {
+    background: black;
+    color: white;
+    font-family: Montserrat, sans-serif;
+    font-size: 14pt;
+    width: 100%;
+}
+
+body {
+    margin: 0 auto;
+}
+
+h2 {
+    color: #fc2;
+}
+
+h2.main {
+    font-family: "Times New Roman", Times, Georgia, Garamond, serif;
+    margin-top: -20px;
+}
+
+#main.large img {
     display: block;
     width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#main {
+    position: relative;
+}
+
+#main.collapse {
+    padding: 9px;
+    border-bottom: 2px solid #fc2;
+}
+
+#main.collapse img {
+    display: inline;
+    height: 80px;
+    margin: 0 -15px;
+}
+#main.collapse h2 {
+    display: inline;
+    height: 80px;
+    line-height: 80px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: 9px 0;
+    padding-left: 20px;
+}
+
+table {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+input[type=button], input[type=submit] {
+    width: 300px;
+    padding: 10px;
+    margin: 10px;
+    background: inherit;
+    font: inherit;
+    font-weight: bold;
+    color: inherit;
+    border: 3px solid #fc2;
+    cursor: pointer;
+}
+
+input[type=button]:hover, input[type=submit]:hover {
+    background: #860;
+}
+
+table input[type=button], table input[type=submit] {
+    width: 140px;
+    padding: 2px;
+    margin: 0px;
+    font-size: 75%;
+    border-width: 1px;
+}
+
+#board_side {
+    padding: 40px;
+    overflow: auto;
+    position: absolute;
+    top: 110px;
+    bottom: 0;
+    left: 0;
+    right: 705px;
+    border-right: 2px solid #fc2;
+    border-top: 2px solid #fc2;
+}
+
+#player_side {
+    overflow: auto;
+    position: absolute;
+    top: 110px;
+    bottom: 0;
+    left: calc(100vw - 700px);
+    right: 0;
+    padding: 40px;
+    border-left: 2px solid #fc2;
+    border-top: 2px solid #fc2;
+}
+
+.board_float {
+    float: left;
+    margin-right: 40px;
+}
+
+#board {
+    padding: 26px;
+    background:
+        url("/static/board_corner.png") no-repeat top left,
+        url("/static/board_corner.png") no-repeat top right,
+        url("/static/board_corner.png") no-repeat bottom left,
+        url("/static/board_corner.png") no-repeat bottom right,
+        url("/static/board_top.png") repeat-x top,
+        url("/static/board_top.png") repeat-x bottom,
+        url("/static/board_side.png") repeat-y left,
+        url("/static/board_side.png") repeat-y right;
+    background-size: 26px 26px;
+    position: relative;
+}
+
+#board tr:first-child th {
+    position: absolute;
+    top: 2px;
+    right: 0px;
+    left: 0px;
+    color: white;
+    text-shadow:
+        -1px  0px black,
+         0px -1px black,
+         1px  0px black,
+         0px  1px black,
+        -1px -1px black,
+         1px -1px black,
+         1px  1px black,
+        -1px  1px black;
+}
+
+#board input {
+    display: none;
+}
+#board label {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+}
+#board input[type="radio"]:checked+.board {
+    border-color: #fc2;
+}
+
+
+.board {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    border: 3px solid black;
+}
+
+.board .number {
+    font-weight: bold;
+    font-size: 130%;
+    color: white;
+    text-shadow:
+        -1px  0px black,
+         0px -1px black,
+         1px  0px black,
+         0px  1px black,
+        -1px -1px black,
+         1px -1px black,
+         1px  1px black,
+        -1px  1px black;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.board .bubble {
+    width: 250px;
+    padding: 6px;
+    position: absolute;
+    z-index: 1;
+    left: 108px;
+    top: -3px;
+    display: none;
+    border: 3px solid #fc2;
+    background: black;
+    text-align: left;
+}
+#board .board:hover .bubble {
+    display: block;
+}
+
+.board .bubble ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0.25em;
+}
+
+.board .bubble .players,
+.board .bubble .settlement,
+.board .bubble .civilization {
+    padding-left: 8px;
+}
+
+.board .bubble .players {
+    margin-top: -7px;
+}
+
+.board .bubble em {
+    color: #AAA;
+    font-size: 75%;
+}
+
+.board .bubble .players:before {
+    content: "Players\A";
+    white-space: pre;
+    text-transform: uppercase;
+    font-size: 60%;
+    color: #CCC;
+    margin-left: -8px;
+}
+
+.board .bubble .settlement:before {
+    content: "Settlement\A";
+    white-space: pre;
+    text-transform: uppercase;
+    font-size: 60%;
+    color: #CCC;
+    margin-left: -8px;
+}
+
+.board .bubble .civilization:before {
+    content: "Civilization\A";
+    white-space: pre;
+    text-transform: uppercase;
+    font-size: 60%;
+    color: #CCC;
+    margin-left: -8px;
+}
+
+.board .bubble ul li::before {
+    content: "\2022";
+    font-weight: bold;
+    color: white;
+    display: inline-block;
+    width: 0.75em;
+}
+
+.board-biome {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.board-resource {
+    z-index: -1;
+    position: absolute;
+    top: 50px;
+    bottom: 10px;
+    left: 50px;
+    right: 10px;
+}
+
+.board-biome-Ocean {
+    background: url("/static/biome_0.png") center;
+    background-size: cover;
+}
+.board-biome-Mine {
+    background: url("/static/biome_1.png") center;
+    background-size: cover;
+}
+.board-biome-Plains {
+    background: url("/static/biome_2.png") center;
+    background-size: cover;
+}
+.board-biome-Forest {
+    background: url("/static/biome_3.png") center;
+    background-size: cover;
+}
+.board-biome-Desert {
+    background: url("/static/biome_4.png") center;
+    background-size: cover;
+}
+.board-biome-Oasis {
+    background: url("/static/biome_5.png") center;
+    background-size: cover;
+}
+
+.board-resource-Lumber {
+    background: url("/static/resource_0.png") 5% center;
+    background-size: cover;
+}
+
+.board-resource-Wheat {
+    background: url("/static/resource_1.png") center;
+    background-size: cover;
+}
+
+.board-resource-Meat {
+    background: url("/static/resource_2.png") center;
+    background-size: cover;
+}
+
+.board-resource-Dairy {
+    background: url("/static/resource_3.png") center;
+    background-size: cover;
+}
+
+.board-resource-Water {
+    background: url("/static/resource_4.png") center;
+    background-size: cover;
+}
+
+.board-resource-Wool {
+    background: url("/static/resource_5.png") center;
+    background-size: cover;
+}
+
+.board-resource-Horses {
+    background: url("/static/resource_6.png") center;
+    background-size: cover;
+}
+
+.board-resource-Gems {
+    background: url("/static/resource_7.png") center;
+    background-size: cover;
+}
+
+.board-resource-Iron {
+    background: url("/static/resource_8.png") center;
+    background-size: cover;
+}
+
+.board-resource-Coal {
+    background: url("/static/resource_9.png") center;
+    background-size: cover;
+}
+
+#players .name {
+    border-bottom: 1px solid white;
+}
+#players .name strong {
+    font-size: 120%;
+}
+#players .name em {
+    font-size: 80%;
+    font-style: normal;
+    text-transform: uppercase;
+    color: #CCC;
+    padding-left: 15px;
+}
+
+#players input {
+    width: 40px;
+}
+
+#players .resource {
+    width: 40px;
+    text-align: right;
+}
+
+#players .amount {
+    width: 70px;
+    text-align: center;
+}
+
+#actions th, #actions td {
+    vertical-align: top;
+}
+#actions th {
+    border-bottom: 1px solid white;
+}
+#actions input[type=radio] {
+    display: none;
+}
+
+#actions label {
+    border: 2px solid black;
+    display: block;
+    padding: 2px;
+    width: 150px;
+}
+#actions input[type=radio]:checked+label {
+    border-color: #fc2;
 }

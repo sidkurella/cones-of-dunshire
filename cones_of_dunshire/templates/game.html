@@ -3,97 +3,85 @@
 <title>Cones of Dunshire</title>
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<style>
-    tr.child_row td {
-        padding-left:20px;
-    }
-    .board {
-        border: 1px solid black;
-    }
-</style>
 </head>
 <body>
-<div id="main" style="text-align: center">
-<img style="display: block; margin-left: auto; margin-right: auto; width: 5%"
-     src="{{ url_for('static', filename='logo.png') }}"
+<div id="main" class="collapse">
+<img src="{{ url_for('static', filename='logo.png') }}"
      alt="Cones of Dunshire">
 </img>
 <h2>Game</h2>
 </div>
-<table id="board" class="board">
+<div id="board_side">
+<form action="{{ url_for('board_action') }}" method="post">
+<div class="board_float">
+<table id="board">
+    <tr>
+        <th colspan="{{ cols }}">Game Board</th>
+    </tr>
     {% for r in board %}
-        <tr class="board">
+        <tr>
             {% for tile in r %}
-                <td class="board">
-                    <table>
-                        <tr>
-                            <td><strong>Biome:</strong></td>
-                            <td>{{ tile.biome|string }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Resource:</strong></td>
-                            <td>{{ tile.resource|string }}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Number:</strong></td>
-                            <td>{{ tile.number }}</td>
-                        </tr>
-                        {% if tile.settlement is not none %}
-                        <tr>
-                            <td><strong>Settlement:</strong></td>
-                            <td>{{ players[tile.settlement].name }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if tile.civilization is not none %}
-                        <tr>
-                            <td><strong>Civilization:</strong></td>
-                            <td>{{ players[tile.civilization].name }}</td>
-                        </tr>
-                        {% endif %}
-                        {% if tile.players %}
-                        <tr>
-                            <td><strong>Player(s):</strong></td><td></td>
-                            {% for p in tile.players %}
-                            <tr class="child_row">
-                                <td>{{ players[p].name }}<td>
-                            </tr>
-                            {% endfor %}
-                        </tr>
-                        {% endif %}
-                        <form action="{{ url_for('board_action', idx=tile.idx) }}" method="post">
-                        <tr>
-                            <td><strong>Actions:</strong></td>
-                            <td></td>
-                            {#<td>#}
-                            {#<ul style="list-style: none">#}
-                                <tr class="child_row"><td>
-                                    <select type="text" name="player">
-                                        <option value="" disabled selected>Select a player...</option>
-                                        {% for player in players %}
-                                            <option value="{{ player.id }}">{{ player.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </td></tr>
-                                <tr class="child_row"><td>
-                                    <input class="button" type="submit" name="move" value="Move Here"/>
-                                </td></tr>
-                                <tr class="child_row"><td>
-                                    <input class="button" type="submit" name="settle" value="Build Settlement"/>
-                                </td></tr>
-                                <tr class="child_row"><td>
-                                    <input class="button" type="submit" name="civ" value="Build Civilization"/>
-                                </td></tr>
-                            {#</ul>#}
-                            {#</td>#}
-                        </tr>
-                        </form>
-                    </table>
+                <td>
+                    <input type="radio" id="cell_{{ tile.idx }}" name="idx" value="{{ tile.idx }}">
+                    <div class="board">
+                        <div class="board-biome board-biome-{{ tile.biome|string }}"></div>
+                        <div class="board-resource board-resource-{{ tile.resource|string }}"></div>
+                        <label for="cell_{{ tile.idx }}"></label>
+                        <div class="number">{{ tile.number }}</div>
+                        <div class="bubble">
+                            <div class="players">
+                                {% if tile.players %}
+                                <ul>
+                                    {% for p in tile.players %}
+                                    <li>{{ players[p].name }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <em>None</em>
+                                {% endif %}
+                            </div>
+                            <div class="settlement">
+                                {% if tile.settlement is not none %}
+                                {{ players[tile.settlement].name }}
+                                {% else %}
+                                <em>None</em>
+                                {% endif %}
+                            </div>
+                            <div class="civilization">
+                                {% if tile.civilization is not none %}
+                                {{ players[tile.civilization].name }}
+                                {% else %}
+                                <em>None</em>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
                 </td>
             {% endfor %}
         </tr>
     {% endfor %}
 </table>
-<br/>
+</div>
+<br>
+<table id="actions">
+    <tr><th>Players</th><th>Actions</th></tr>
+    <tr>
+        <td>
+            {% for player in players %}
+            <input type="radio" id="player_{{ player.id }}" name="player" value="{{ player.id }}">
+            <label for="player_{{ player.id }}">{{ player.name }}</label>
+            {% endfor %}
+        </td>
+        <td>
+            <input class="button" type="submit" name="move" value="Move Here"><br>
+            <input class="button" type="submit" name="settle" value="Build Settlement"><br>
+            <input class="button" type="submit" name="civ" value="Build Civilization"><br>
+        </td>
+    </tr>
+</table>
+</form>
+</div>
+<div id="player_side">
 <form action="{{ url_for('dice_roll') }}" method="post">
     <input class="button" type="submit" name="roll" value="Roll Dice"/>
 </form>
@@ -136,14 +124,16 @@
 <table id="players">
     {% for player in players %}
     <tr>
-        <td><strong>{{ player.name }}:</strong></td>
-        <td><em>{{ player.role|string }}</em></td>
+        <td class="name" colspan="5">
+            <strong>{{ player.name }}</strong>
+            <em>{{ player.role|string }}</em>
+        </td>
     </tr>
     {% for r in resources %}
         <form action="{{ url_for('resource_update', player=player.id, resource=r.value) }}" method="post">
             <tr class="child_row">
-                <td>{{ r|string }}:</td>
-                <td>{{ player.resources[r.value] }}</td>
+                <td class="resource">{{ r|string }}</td>
+                <td class="amount">{{ player.resources[r.value] }}</td>
                 <td><input class="button" type="submit" name="minus" value="-"/></td>
                 <td><input class="button" type="submit" name="reset" value="0"/></td>
                 <td><input class="button" type="submit" name="plus" value="+"/></td>
@@ -152,4 +142,5 @@
     {% endfor %}
     {% endfor %}
 </table>
+</div>
 </body>
