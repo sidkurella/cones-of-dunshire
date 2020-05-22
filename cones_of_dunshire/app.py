@@ -81,8 +81,7 @@ def player_form():
         session['board'] = [
             [
                 Tile(
-                    r,
-                    c,
+                    r * cols + c,
                     Biome.OCEAN if (r == 0 or c == 0
                         or r == (rows - 1) or c == (cols - 1)
                     ) else random.choice(biomes[1:]),
@@ -109,6 +108,12 @@ def player_form():
 
 @app.route('/game')
 def game():
+    board = [
+        [Tile.from_json(t) for t in x]
+        for x in session['board']
+    ]
+    rows = len(board)
+    cols = len(board[0])
     return render_template(
         'game.html',
         players=[Player.from_json(x) for x in session['players']],
@@ -117,7 +122,9 @@ def game():
         dice_total=sum(session['dice_3']),
         resources=list(Resource),
         biomes=list(Biome),
-        board=[[Tile.from_json(t) for t in x] for x in session['board']],
+        board=board,
+        rows=rows,
+        cols=cols
     )
 
 @app.route('/roll', methods=['POST'])
@@ -144,13 +151,18 @@ def resource_update(player, resource):
     session.modified = True # Since we modify a mutable object
     return redirect(url_for('game'))
 
-@app.route('/board_action/<int:r>/<int:c>', methods=['POST'])
-def board_action(r, c):
+@app.route('/board_action', methods=['POST'])
+def board_action():
+    idx = int(request.form['idx'])
     player = int(request.form['player'])
     board = [
         [Tile.from_json(t) for t in x]
         for x in session['board']
     ]
+    rows = len(board)
+    cols = len(board[0])
+    r = idx // cols
+    c = idx % cols
     tile = board[r][c]
     if request.form.get('move', False):
         for row in board:

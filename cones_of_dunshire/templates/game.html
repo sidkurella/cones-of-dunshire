@@ -60,7 +60,7 @@
                             {% endfor %}
                         </tr>
                         {% endif %}
-                        <form action="{{ url_for('board_action', r=tile.r, c=tile.c) }}" method="post">
+                        <form action="{{ url_for('board_action', idx=tile.idx) }}" method="post">
                         <tr>
                             <td><strong>Actions:</strong></td>
                             <td></td>

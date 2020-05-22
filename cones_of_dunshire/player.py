@@ -13,9 +13,8 @@ class Biome(Enum):
         return self.name.title()
 
 class Tile:
-    def __init__(self, r, c, biome, resource, number):
-        self.r = r
-        self.c = c
+    def __init__(self, idx, biome, resource, number):
+        self.idx = idx
         self.biome = biome
         self.resource = resource
         self.number = number
@@ -25,8 +24,7 @@ class Tile:
 
     def to_json(self):
         return json.dumps({
-            'r': self.r,
-            'c': self.c,
+            'idx': self.idx,
             'biome': self.biome.value,
             'resource': self.resource.value,
             'number': self.number,
@@ -39,8 +37,7 @@ class Tile:
     def from_json(js):
         d = json.loads(js)
         t = Tile(
-            d['r'],
-            d['c'],
+            d['idx'],
             Biome(d['biome']),
             Resource(d['resource']),
             d['number'],
