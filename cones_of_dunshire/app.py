@@ -224,6 +224,37 @@ def end_turn():
     session['turn'] += 1
     if session['turn'] == len(session['players']):
         session['turn'] = 0
+    session['dice_3'] = []
+    session['dice'] = []
+    return redirect(url_for('game'))
+
+@app.route('/collect', methods=['POST'])
+def collect():
+    if not session['dice']:
+        flash('You must roll the dice first.')
+        return redirect(url_for('game'))
+
+    board = [
+        [Tile.from_json(t) for t in x]
+        for x in session['board']
+    ]
+    players = [Player.from_json(x) for x in session['players']]
+
+    for d in session['dice']:
+        for r in board:
+            for tile in r:
+                if tile.number == d:
+                    resource_idx = tile.resource.value
+                    if tile.settlement is not None:
+                        players[tile.settlement].resources[resource_idx] += 1
+                    if tile.civilization is not None:
+                        players[tile.civilization].resources[resource_idx] += 2
+
+    session['board'] = [
+        [t.to_json() for t in r]
+        for r in board
+    ]
+    session['players'] = [p.to_json() for p in players]
     return redirect(url_for('game'))
 
 if __name__ == "__main__":
