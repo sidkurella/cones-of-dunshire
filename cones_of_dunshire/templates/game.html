@@ -153,6 +153,7 @@
     {% endfor %}
     </tr>
 </table>
+<h4>Total: {{ dice|sum }}</h4>
 {% endif %}
 <form action="{{ url_for('collect') }}" method="post">
     <input class="button" type="submit" name="collect" value="Collect Resources"/>
