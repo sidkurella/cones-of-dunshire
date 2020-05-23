@@ -283,7 +283,10 @@ def collect(player=None):
                             players[tile.settlement].resources[resource_idx] += 1
                     if tile.civilization is not None:
                         if player is None or player == tile.civilization:
-                            players[tile.civilization].resources[resource_idx] += 2
+                            players[tile.civilization].resources[resource_idx] += 1.5
+
+    for player in players:
+        player.resources = [int(r) for r in player.resources]
 
     session['board'] = [
         [t.to_json() for t in r]
