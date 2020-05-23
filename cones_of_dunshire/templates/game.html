@@ -192,6 +192,10 @@
         </tr>
     </form>
     {% endfor %}
+    <tr>
+        <td class="resource">Total</td>
+        <td class="amount">{{ player.resources|sum }}</td>
+    </tr>
 </table>
 {% endfor %}
 </div>
