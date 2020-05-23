@@ -9,7 +9,23 @@ import random
 app = Flask(__name__)
 app.secret_key = b'i\'m the maverick'
 
-deck = list(range(1, 26))
+deck = [
+    "Start/Stop the challenge play.",
+    "Start/Stop the challenge play.",
+    "Start/Stop the challenge play.",
+    "Get 5 free resources of any kind (you can mix and match).",
+    "Get 5 free resources of any kind (you can mix and match).",
+    "Get 5 free resources of any kind (you can mix and match).",
+    "Take 1 of a certain resource from everyone (you choose the type).",
+    "Take 1 of a certain resource from everyone (you choose the type).",
+    "Take 1 of a certain resource from everyone (you choose the type).",
+    "Take 1 of a certain resource from everyone (you choose the type).",
+    "Build a settlement for free.",
+    "Build a settlement for free.",
+    "If you have a civilization, get a cone.",
+    "If you have a civilization, get a cone.",
+    "If you have a civilization, get a cone.",
+]
 
 @app.route('/')
 def index():

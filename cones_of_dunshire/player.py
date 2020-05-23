@@ -67,18 +67,19 @@ class Role(Enum):
 class Resource(Enum):
     LUMBER = 0
     WHEAT  = 1
-    WATER  = 2
-    WOOL   = 3
-    HORSES = 4
-    GEMS   = 5
-    IRON   = 6
+    MEAT   = 2
+    WATER  = 3
+    WOOL   = 4
+    HORSES = 5
+    GEMS   = 6
+    IRON   = 7
 
     def __str__(self):
         return self.name.title()
 
     def is_agriculture(self):
         return any(
-            self == x for x in (Resource.WHEAT, Resource.MEAT, Resource.DAIRY)
+            self == x for x in (Resource.WHEAT, Resource.MEAT)
         )
 
     def is_livestock(self):
@@ -88,7 +89,7 @@ class Resource(Enum):
 
     def is_mined(self):
         return any(
-            self == x for x in (Resource.GEMS, Resource.IRON, Resource.COAL)
+            self == x for x in (Resource.GEMS, Resource.IRON)
         )
 
 class Player:
