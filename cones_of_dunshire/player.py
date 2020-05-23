@@ -48,7 +48,6 @@ class Tile:
         return t
 
 class Role(Enum):
-    # LEDGERMAN = 0
     MAVERICK  = 1
     WIZARD    = 2
     CORPORAL  = 3
@@ -68,14 +67,11 @@ class Role(Enum):
 class Resource(Enum):
     LUMBER = 0
     WHEAT  = 1
-    MEAT   = 2
-    DAIRY  = 3
-    WATER  = 4
-    WOOL   = 5
-    HORSES = 6
-    GEMS   = 7
-    IRON   = 8
-    COAL   = 9
+    WATER  = 2
+    WOOL   = 3
+    HORSES = 4
+    GEMS   = 5
+    IRON   = 6
 
     def __str__(self):
         return self.name.title()

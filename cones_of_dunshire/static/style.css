@@ -296,77 +296,77 @@ table input[type=button], table input[type=submit] {
 }
 
 .board-biome-Ocean {
-    background: url("/static/biome_0.png") center;
+    background: url("/static/biome_ocean.png") center;
     background-size: cover;
 }
 .board-biome-Mine {
-    background: url("/static/biome_1.png") center;
+    background: url("/static/biome_mine.png") center;
     background-size: cover;
 }
 .board-biome-Plains {
-    background: url("/static/biome_2.png") center;
+    background: url("/static/biome_plains.png") center;
     background-size: cover;
 }
 .board-biome-Forest {
-    background: url("/static/biome_3.png") center;
+    background: url("/static/biome_forest.png") center;
     background-size: cover;
 }
 .board-biome-Desert {
-    background: url("/static/biome_4.png") center;
+    background: url("/static/biome_desert.png") center;
     background-size: cover;
 }
 .board-biome-Oasis {
-    background: url("/static/biome_5.png") center;
+    background: url("/static/biome_oasis.png") center;
     background-size: cover;
 }
 
 .board-resource-Lumber {
-    background: url("/static/resource_0.png") 5% center;
+    background: url("/static/resource_lumber.png") 5% center;
     background-size: cover;
 }
 
 .board-resource-Wheat {
-    background: url("/static/resource_1.png") center;
+    background: url("/static/resource_wheat.png") center;
     background-size: cover;
 }
 
 .board-resource-Meat {
-    background: url("/static/resource_2.png") center;
+    background: url("/static/resource_meat.png") center;
     background-size: cover;
 }
 
 .board-resource-Dairy {
-    background: url("/static/resource_3.png") center;
+    background: url("/static/resource_dairy.png") center;
     background-size: cover;
 }
 
 .board-resource-Water {
-    background: url("/static/resource_4.png") center;
+    background: url("/static/resource_water.png") center;
     background-size: cover;
 }
 
 .board-resource-Wool {
-    background: url("/static/resource_5.png") center;
+    background: url("/static/resource_wool.png") center;
     background-size: cover;
 }
 
 .board-resource-Horses {
-    background: url("/static/resource_6.png") center;
+    background: url("/static/resource_horses.png") center;
     background-size: cover;
 }
 
 .board-resource-Gems {
-    background: url("/static/resource_7.png") center;
+    background: url("/static/resource_gems.png") center;
     background-size: cover;
 }
 
 .board-resource-Iron {
-    background: url("/static/resource_8.png") center;
+    background: url("/static/resource_iron.png") center;
     background-size: cover;
 }
 
 .board-resource-Coal {
-    background: url("/static/resource_9.png") center;
+    background: url("/static/resource_coal.png") center;
     background-size: cover;
 }
 
