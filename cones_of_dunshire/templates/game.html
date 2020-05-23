@@ -158,6 +158,9 @@
 <form action="{{ url_for('collect') }}" method="post">
     <input class="button" type="submit" name="collect" value="Collect Resources"/>
 </form>
+<form action="{{ url_for('collect', player=turn) }}" method="post">
+    <input class="button" type="submit" name="collect" value="Collect for Turn Player Only"/>
+</form>
 <form action="{{ url_for('end_turn') }}" method="post">
     <input class="button" type="submit" name="end_turn" value="End Turn"/>
 </form>

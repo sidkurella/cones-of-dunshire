@@ -261,7 +261,8 @@ def end_turn():
     return redirect(url_for('game'))
 
 @app.route('/collect', methods=['POST'])
-def collect():
+@app.route('/collect/<int:player>', methods=['POST'])
+def collect(player=None):
     if not session['dice']:
         flash('You must roll the dice first.')
         return redirect(url_for('game'))
@@ -278,9 +279,11 @@ def collect():
                 if tile.number == d:
                     resource_idx = tile.resource.value
                     if tile.settlement is not None:
-                        players[tile.settlement].resources[resource_idx] += 1
+                        if player is None or player == tile.settlement:
+                            players[tile.settlement].resources[resource_idx] += 1
                     if tile.civilization is not None:
-                        players[tile.civilization].resources[resource_idx] += 2
+                        if player is None or player == tile.civilization:
+                            players[tile.civilization].resources[resource_idx] += 2
 
     session['board'] = [
         [t.to_json() for t in r]
