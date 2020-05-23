@@ -6,8 +6,10 @@
 </head>
 <body>
 <div id="main" style="text-align: center" class="large">
+<a href="{{ url_for('index') }}">
 <img src="{{ url_for('static', filename='logo_black_bg.png') }}"
      alt="Cones of Dunshire">
+</a>
 <h2>Your Hand</h2>
 </div>
 <form action="{{ url_for('remove_card') }}" method="post" class="center">

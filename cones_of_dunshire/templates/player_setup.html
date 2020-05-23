@@ -6,10 +6,12 @@
 </head>
 <body>
 <div id="main" style="text-align: center">
+<a href="{{ url_for('index') }}">
 <img style="display: block; margin-left: auto; margin-right: auto; width: 50%"
      src="{{ url_for('static', filename='logo.png') }}"
      alt="Cones of Dunshire">
 </img>
+</a>
 <h2>Setup game</h2>
 {% with messages = get_flashed_messages() %}
     {% if messages %}
