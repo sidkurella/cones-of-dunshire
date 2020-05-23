@@ -154,10 +154,11 @@ def dice_roll():
 @app.route('/resource_update/<int:player>/<int:resource>', methods=['POST'])
 def resource_update(player, resource):
     p = Player.from_json(session['players'][player])
+    amt = int(request.form.get('delta', 1))
     if request.form.get('plus', False):
-        p.resources[resource] += 1
+        p.resources[resource] += amt
     elif request.form.get('minus', False):
-        p.resources[resource] -= 1
+        p.resources[resource] -= amt
     elif request.form.get('reset', False):
         p.resources[resource] = 0
     session['players'][player] = p.to_json()

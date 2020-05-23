@@ -48,7 +48,7 @@ class Tile:
         return t
 
 class Role(Enum):
-    LEDGERMAN = 0
+    # LEDGERMAN = 0
     MAVERICK  = 1
     WIZARD    = 2
     CORPORAL  = 3
