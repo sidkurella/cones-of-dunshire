@@ -270,10 +270,10 @@ table input[type=button], table input[type=submit] {
 .board-resource {
     z-index: -1;
     position: absolute;
-    top: 50px;
-    bottom: 10px;
-    left: 50px;
-    right: 10px;
+    top: 55px;
+    bottom: 5px;
+    left: 55px;
+    right: 5px;
 }
 
 .board-settlement {
@@ -283,6 +283,20 @@ table input[type=button], table input[type=submit] {
     bottom: 55px;
     left: 50px;
     right: 10px;
+}
+
+.board-player {
+    z-index: -1;
+    position: absolute;
+    top: 55px;
+    bottom: 5px;
+    left: 5px;
+    right: 55px;
+}
+
+.board-player-icon {
+    background: url("/static/player.png") center;
+    background-size: cover;
 }
 
 .board-settlement-civ {

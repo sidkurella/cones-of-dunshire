@@ -33,6 +33,10 @@
                             <div class="board-settlement board-settlement-settle"></div>
                         {% endif %}
 
+                        {% if tile.players %}
+                            <div class="board-player board-player-icon"></div>
+                        {% endif %}
+
                         <label for="cell_{{ tile.idx }}"></label>
                         <div class="number">{{ tile.number }}</div>
                         <div class="bubble">
