@@ -22,9 +22,9 @@ deck = [
     "Take 1 of a certain resource from everyone (you choose the type).",
     "Build a settlement for free.",
     "Build a settlement for free.",
-    "If you have a civilization, get a cone.",
-    "If you have a civilization, get a cone.",
-    "If you have a civilization, get a cone.",
+    "If you have a (new) civilization, get a cone (one cone per civilization).",
+    "If you have a (new) civilization, get a cone (one cone per civilization).",
+    "If you have a (new) civilization, get a cone (one cone per civilization).",
 ]
 
 @app.route('/')
