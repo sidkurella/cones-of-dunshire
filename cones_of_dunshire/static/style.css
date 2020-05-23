@@ -416,21 +416,11 @@ table input[type=number] {
 .board-settlement {
     z-index: -1;
     position: absolute;
-    top: 5px;
-    bottom: 55px;
-    left: 50px;
-    right: 10px;
-}
-
-.board-player {
-    z-index: -1;
-    position: absolute;
-    top: 55px;
     bottom: 5px;
+    top: 60px;
+    right: 60px;
     left: 5px;
-    right: 55px;
 }
-
 .board-player-icon {
     background: url("/static/player.png") center;
     background-size: cover;

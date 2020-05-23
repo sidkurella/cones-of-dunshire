@@ -29,18 +29,12 @@
                         <div class="board-resource board-resource-{{ tile.resource|string }}"></div>
 
                         {% if tile.civilization is not none %}
-                            <div class="board-settlement board-settlement-civ"></div>
+                        <div class="board-settlement board-settlement-civ"></div>
                         {% elif tile.settlement is not none %}
-                            <div class="board-settlement board-settlement-settle"></div>
+                        <div class="board-settlement board-settlement-settle"></div>
                         {% endif %}
 
                         <label for="cell_{{ tile.idx }}"></label>
-                        {% if tile.settlement is not none %}
-                        <div class="tag-settlement"></div>
-                        {% endif %}
-                        {% if tile.civilization is not none %}
-                        <div class="tag-civilization"></div>
-                        {% endif %}
                         {% for p in tile.players %}
                         <div class="tag-player tag-player-{{ players[p].role|string }}">{{ players[p].role|string|first }}</div>
                         {% endfor %}
