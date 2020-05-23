@@ -34,10 +34,6 @@
                             <div class="board-settlement board-settlement-settle"></div>
                         {% endif %}
 
-                        {% if tile.players %}
-                            <div class="board-player board-player-icon"></div>
-                        {% endif %}
-
                         <label for="cell_{{ tile.idx }}"></label>
                         {% if tile.settlement is not none %}
                         <div class="tag-settlement"></div>

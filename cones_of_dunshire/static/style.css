@@ -142,7 +142,6 @@ table input[type=number] {
 
 #board {
     padding: 26px;
-    padding-bottom: 23px;
     background:
         url("/static/board_corner.png") no-repeat top left,
         url("/static/board_corner.png") no-repeat top right,
@@ -190,7 +189,8 @@ table input[type=number] {
     line-height: 0px;
     height: 0px;
     position: relative;
-    top: 12px;
+    top: 15px;
+    padding: 0;
 }
 
 #board input {
