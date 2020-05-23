@@ -26,6 +26,13 @@
                     <div class="board">
                         <div class="board-biome board-biome-{{ tile.biome|string }}"></div>
                         <div class="board-resource board-resource-{{ tile.resource|string }}"></div>
+
+                        {% if tile.civilization is not none %}
+                            <div class="board-settlement board-settlement-civ"></div>
+                        {% elif tile.settlement is not none %}
+                            <div class="board-settlement board-settlement-settle"></div>
+                        {% endif %}
+
                         <label for="cell_{{ tile.idx }}"></label>
                         <div class="number">{{ tile.number }}</div>
                         <div class="bubble">
@@ -132,11 +139,11 @@
     </tr>
 </table>
 {% endif %}
-<form action="{{ url_for('end_turn') }}" method="post">
-    <input class="button" type="submit" name="end_turn" value="End Turn"/>
-</form>
 <form action="{{ url_for('collect') }}" method="post">
     <input class="button" type="submit" name="collect" value="Collect Resources"/>
+</form>
+<form action="{{ url_for('end_turn') }}" method="post">
+    <input class="button" type="submit" name="end_turn" value="End Turn"/>
 </form>
 <h2>Players</h2>
 <table id="players">

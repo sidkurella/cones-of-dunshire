@@ -276,6 +276,25 @@ table input[type=button], table input[type=submit] {
     right: 10px;
 }
 
+.board-settlement {
+    z-index: -1;
+    position: absolute;
+    top: 5px;
+    bottom: 55px;
+    left: 50px;
+    right: 10px;
+}
+
+.board-settlement-civ {
+    background: url("/static/civilization.png") center;
+    background-size: cover;
+}
+
+.board-settlement-settle {
+    background: url("/static/settlement.png") center;
+    background-size: cover;
+}
+
 .board-biome-Ocean {
     background: url("/static/biome_0.png") center;
     background-size: cover;
