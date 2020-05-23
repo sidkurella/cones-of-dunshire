@@ -278,12 +278,12 @@ def collect(player=None):
             for tile in r:
                 if tile.number == d:
                     resource_idx = tile.resource.value
-                    if tile.settlement is not None:
-                        if player is None or player == tile.settlement:
-                            players[tile.settlement].resources[resource_idx] += 1
                     if tile.civilization is not None:
                         if player is None or player == tile.civilization:
                             players[tile.civilization].resources[resource_idx] += 1.5
+                    elif tile.settlement is not None:
+                        if player is None or player == tile.settlement:
+                            players[tile.settlement].resources[resource_idx] += 1
 
     for player in players:
         player.resources = [int(r) for r in player.resources]
