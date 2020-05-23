@@ -165,6 +165,20 @@ def resource_update(player, resource):
     session.modified = True # Since we modify a mutable object
     return redirect(url_for('game'))
 
+@app.route('/cone_update/<int:player>', methods=['POST'])
+def cone_update(player):
+    p = Player.from_json(session['players'][player])
+    amt = int(request.form.get('delta', 1))
+    if request.form.get('plus', False):
+        p.cones += amt
+    elif request.form.get('minus', False):
+        p.cones -= amt
+    elif request.form.get('reset', False):
+        p.cones = 0
+    session['players'][player] = p.to_json()
+    session.modified = True # Since we modify a mutable object
+    return redirect(url_for('game'))
+
 @app.route('/board_action', methods=['POST'])
 def board_action():
     if not request.form.get('idx', False):

@@ -103,6 +103,7 @@ class Player:
         self.resources = [
             0 for _ in Resource
         ]
+        self.cones = 0
 
     def to_json(self):
         return json.dumps({
@@ -110,6 +111,7 @@ class Player:
             'name':      self.name,
             'role':      self.role.value,
             'resources': self.resources,
+            'cones':     self.cones,
         })
 
     @staticmethod
@@ -117,5 +119,6 @@ class Player:
         d = json.loads(js)
         p = Player(d['id'], d['name'], Role(d['role']))
         p.resources = d['resources']
+        p.cones = d['cones']
         return p
 

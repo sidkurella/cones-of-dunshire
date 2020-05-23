@@ -150,6 +150,16 @@
             {% endif %}
         </td>
     </tr>
+    <form action="{{ url_for('cone_update', player=player.id) }}" method="post">
+        <tr class="child_row">
+            <td class="resource">Cones</td>
+            <td class="amount">{{ player.cones }}</td>
+            <td><input class="button" type="submit" name="minus" value="-"/></td>
+            <td><input class="button" type="submit" name="reset" value="0"/></td>
+            <td><input class="button" type="submit" name="plus" value="+"/></td>
+            <td><input type="number" name="delta" min="1" value="1"/></td>
+        </tr>
+    </form>
     {% for r in resources %}
         <form action="{{ url_for('resource_update', player=player.id, resource=r.value) }}" method="post">
             <tr class="child_row">
