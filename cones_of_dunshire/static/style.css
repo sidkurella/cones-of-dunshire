@@ -213,40 +213,42 @@ table input[type=button], table input[type=submit] {
     padding-left: 8px;
 }
 
-.board .bubble .players {
-    margin-top: -7px;
-}
-
 .board .bubble em {
     color: #AAA;
     font-size: 75%;
 }
 
 .board .bubble .players:before {
+    display: block;
     content: "Players\A";
     white-space: pre;
     text-transform: uppercase;
     font-size: 60%;
     color: #CCC;
     margin-left: -8px;
+    margin-top: 2px;
 }
 
 .board .bubble .settlement:before {
+    display: block;
     content: "Settlement\A";
     white-space: pre;
     text-transform: uppercase;
     font-size: 60%;
     color: #CCC;
     margin-left: -8px;
+    margin-top: 2px;
 }
 
 .board .bubble .civilization:before {
+    display: block;
     content: "Civilization\A";
     white-space: pre;
     text-transform: uppercase;
     font-size: 60%;
     color: #CCC;
     margin-left: -8px;
+    margin-top: 2px;
 }
 
 .board .bubble ul li::before {
