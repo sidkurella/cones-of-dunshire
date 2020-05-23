@@ -109,6 +109,7 @@ def player_form():
                 )
         session['dice_3'] = []
         session['dice'] = []
+        session['turn'] = 0
         if not err:
             return redirect(url_for('game'))
         else:
@@ -128,6 +129,7 @@ def game():
     return render_template(
         'game.html',
         players=[Player.from_json(x) for x in session['players']],
+        turn=session['turn'],
         dice_3=session['dice_3'],
         dice=session['dice'],
         dice_total=sum(session['dice_3']),
@@ -164,18 +166,11 @@ def resource_update(player, resource):
 
 @app.route('/board_action', methods=['POST'])
 def board_action():
-    err = False
     if not request.form.get('idx', False):
         flash('You must select a board tile to act on.')
-        err = True
-    if not request.form.get('player', False):
-        flash('You must select a player to perform that action.')
-        err = True
-    if err:
         return redirect(url_for('game'))
 
     idx = int(request.form['idx'])
-    player = int(request.form['player'])
     board = [
         [Tile.from_json(t) for t in x]
         for x in session['board']
@@ -185,18 +180,38 @@ def board_action():
     r = idx // cols
     c = idx % cols
     tile = board[r][c]
+
     if request.form.get('move', False):
-        for row in board:
-            for t in row:
-                try:
-                    t.players.remove(player)
-                except ValueError:
-                    pass
-        tile.players.append(player)
+        if not request.form.get('player', False):
+            flash('You must select a player to perform that action.')
+            err = True
+        else:
+            player = int(request.form['player'])
+            for row in board:
+                for t in row:
+                    try:
+                        t.players.remove(player)
+                    except ValueError:
+                        pass
+            tile.players.append(player)
     elif request.form.get('settle', False):
-        tile.settlement = player
+        if not request.form.get('player', False):
+            flash('You must select a player to perform that action.')
+            err = True
+        else:
+            player = int(request.form['player'])
+            tile.settlement = player
     elif request.form.get('civ', False):
-        tile.civilization = player
+        if not request.form.get('player', False):
+            flash('You must select a player to perform that action.')
+            err = True
+        else:
+            player = int(request.form['player'])
+            tile.civilization = player
+    elif request.form.get('remove_settle', False):
+        tile.settlement = None
+    elif request.form.get('remove_civ', False):
+        tile.civilization = None
     board[r][c] = tile
     session['board'] = [
         [t.to_json() for t in r]

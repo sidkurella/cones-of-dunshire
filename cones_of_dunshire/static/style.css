@@ -393,6 +393,11 @@ table input[type=button], table input[type=submit] {
     padding: 2px;
     width: 150px;
 }
+
+#actions input[type=submit] {
+    width: 150px;
+}
+
 #actions input[type=radio]:checked+label {
     border-color: #fc2;
 }
