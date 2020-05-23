@@ -219,5 +219,12 @@ def board_action():
     ]
     return redirect(url_for('game'))
 
+@app.route('/end_turn', methods=['POST'])
+def end_turn():
+    session['turn'] += 1
+    if session['turn'] == len(session['players']):
+        session['turn'] = 0
+    return redirect(url_for('game'))
+
 if __name__ == "__main__":
     app.run()

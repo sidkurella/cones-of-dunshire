@@ -132,6 +132,9 @@
     </tr>
 </table>
 {% endif %}
+<form action="{{ url_for('end_turn') }}" method="post">
+    <input class="button" type="submit" name="end_turn" value="End Turn"/>
+</form>
 <h2>Players</h2>
 <table id="players">
     {% for player in players %}
@@ -139,6 +142,9 @@
         <td class="name" colspan="5">
             <strong>{{ player.name }}</strong>
             <em>{{ player.role|string }}</em>
+            {% if player.id == turn %}
+                <strong>It's your turn!</strong>
+            {% endif %}
         </td>
     </tr>
     {% for r in resources %}
