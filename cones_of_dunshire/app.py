@@ -153,7 +153,8 @@ def game():
         biomes=list(Biome),
         board=board,
         rows=rows,
-        cols=cols
+        cols=cols,
+        col_idx=[chr(ord('a') + r) for r in range(rows)],
     )
 
 @app.route('/roll', methods=['POST'])

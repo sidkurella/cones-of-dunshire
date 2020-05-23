@@ -20,6 +20,7 @@
     </tr>
     {% for r in board %}
         <tr>
+            <th>{{ rows - (loop.index - 1) }}</th>
             {% for tile in r %}
                 <td>
                     <input type="radio" id="cell_{{ tile.idx }}" name="idx" value="{{ tile.idx }}">
@@ -72,6 +73,12 @@
             {% endfor %}
         </tr>
     {% endfor %}
+    <tr>
+            <th colspan="1"></th>
+        {% for c in col_idx %}
+            <th colspan="1">{{ c }}</th>
+        {% endfor %}
+    </tr>
 </table>
 </div>
 <br>
