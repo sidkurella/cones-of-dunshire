@@ -80,6 +80,18 @@ table input[type=button], table input[type=submit] {
     border-width: 1px;
 }
 
+table input[type=number] {
+    width: 60px;
+    padding: 2px;
+    background: inherit;
+    font: inherit;
+    font-weight: bold;
+    color: inherit;
+    border: 1px solid #fc2;
+    margin: 0;
+    font-size: 75%;
+}
+
 #board_side {
     padding: 40px;
     overflow: auto;
@@ -87,21 +99,36 @@ table input[type=button], table input[type=submit] {
     top: 110px;
     bottom: 0;
     left: 0;
-    right: 705px;
+    right: 736px;
     border-right: 2px solid #fc2;
     border-top: 2px solid #fc2;
 }
 
-#player_side {
-    overflow: auto;
+#player_wrap {
+    overflow-y: scroll;
     position: absolute;
     top: 110px;
-    bottom: 0;
-    left: calc(100vw - 700px);
+    left: calc(100vw - 870px - 11px);
     right: 0;
-    padding: 40px;
-    border-left: 2px solid #fc2;
+    bottom: 0;
+}
+
+#player_border {
+    position: fixed;
+    left: calc(100vw - 870px - 11px + 150px);
+    right: 0;
+    top: 110px;
+    bottom: 0;
     border-top: 2px solid #fc2;
+    border-left: 2px solid #fc2;
+    z-index: 2;
+    pointer-events: none;
+}
+
+#player_side {
+    overflow: visible;
+    padding: 40px;
+    margin-left: 150px;
 }
 
 .center {
@@ -115,6 +142,7 @@ table input[type=button], table input[type=submit] {
 
 #board {
     padding: 26px;
+    padding-bottom: 23px;
     background:
         url("/static/board_corner.png") no-repeat top left,
         url("/static/board_corner.png") no-repeat top right,
@@ -128,12 +156,7 @@ table input[type=button], table input[type=submit] {
     position: relative;
 }
 
-#board tr:first-child th {
-    position: absolute;
-    top: 2px;
-    right: 0px;
-    left: 0px;
-    color: white;
+#board th {
     text-shadow:
         -1px  0px black,
          0px -1px black,
@@ -143,6 +166,31 @@ table input[type=button], table input[type=submit] {
          1px -1px black,
          1px  1px black,
         -1px  1px black;
+}
+
+#board tr:first-child th {
+    position: absolute;
+    top: 2px;
+    right: 0px;
+    left: 0px;
+    color: white;
+}
+
+#board tr:not(:first-child) th:first-child {
+    position: absolute;
+    height: 100px;
+    line-height: 100px;
+    left: 7px;
+}
+
+#board tr:last-child {
+    height: 0px;
+}
+#board tr:last-child th {
+    line-height: 0px;
+    height: 0px;
+    position: relative;
+    top: 12px;
 }
 
 #board input {
@@ -157,21 +205,48 @@ table input[type=button], table input[type=submit] {
     cursor: pointer;
 }
 #board input[type="radio"]:checked+.board {
-    border-color: #fc2;
+    border: 3px solid #fc2;
 }
 
 
 .board {
-    width: 100px;
+    width: 60px;
     height: 100px;
     position: relative;
     border: 3px solid black;
+    padding-left: 40px;
+}
+
+.board.active {
+    border: 3px dashed #c92;
+}
+
+.board .tag-settlement:before {
+    content: "S";
+    bottom: 2px;
+    left: 2px;
+    color: #CFC;
+    width: 23px;
+}
+.board .tag-civilization:before {
+    content: "C";
+    bottom: 29px;
+    left: 2px;
+    color: #FCC;
+    width: 23px;
 }
 
 .board .number {
-    font-weight: bold;
     font-size: 130%;
-    color: white;
+    top: 2px;
+    left: 2px;
+    width: 29px;
+}
+
+.board .tag-player,
+.board .tag-settlement:before,
+.board .tag-civilization:before,
+.board .number {
     text-shadow:
         -1px  0px black,
          0px -1px black,
@@ -181,8 +256,70 @@ table input[type=button], table input[type=submit] {
          1px -1px black,
          1px  1px black,
         -1px  1px black;
-    text-align: left;
-    padding-left: 5px;
+    font-weight: bold;
+}
+
+.board .tag-settlement:before,
+.board .tag-civilization:before,
+.board .number {
+    display: block;
+    position: absolute;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.board .tag-player {
+    display: block;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    float: right;
+    text-align: center;
+    margin: 2px;
+    font-size: 68%;
+}
+
+.board .tag-player-Ledgerman {
+    color: pink;
+}
+.board .tag-player-Maverick {
+    color: #7a6ba1;
+}
+.board .tag-player-Wizard {
+    color: red;
+}
+.board .tag-player-Corporal {
+    color: green;
+}
+.board .tag-player-Arbiter {
+    color: purple;
+}
+.board .tag-player-Warrior {
+    color: blue;
+}
+.board .tag-player-Shaman {
+    color: maroon;
+}
+.board .tag-player-Farmer {
+    color: #29b8b2;
+}
+.board .tag-player-Alchemist {
+    color: turquoise;
+}
+.board .tag-player-Brinksman {
+    color: darkturquoise;
+}
+.board .tag-player-Provost {
+    color: orange;
+}
+.board .tag-player-Abbott {
+    color: yellow;
+}
+.board .tag-player-Denier {
+    color: #d3f8fb;
 }
 
 .board .bubble {
@@ -384,30 +521,60 @@ table input[type=button], table input[type=submit] {
     background-size: cover;
 }
 
-#players .name {
+.player {
+    border: 2px solid #666;
+    padding: 5px;
+    position: relative;
+}
+.player.current {
+    border: 2px solid #fc2;
+}
+
+.player.current:before {
+    content: "Current Turn";
+    display: block;
+    padding: 4px;
+    position: absolute;
+    background: black;
+    right: calc(100% + 4px);
+    top: -2px;
+    height: 20px;
+    line-height: 20px;
+    width: 150px;
+    border: 2px solid #fc2;
+    text-align: center;
+    z-index: 3;
+}
+
+.player td, .player th {
+    padding: 2px;
+}
+.player .name {
     border-bottom: 1px solid white;
 }
-#players .name strong {
+.player .name strong {
     font-size: 120%;
 }
-#players .name em {
+.player .name em {
     font-size: 80%;
     font-style: normal;
     text-transform: uppercase;
     color: #CCC;
-    padding-left: 15px;
+    position: absolute;
+    top: 4px;
+    right: 4px;
 }
 
-#players input {
+.player input[type=button], .player input[type=submit] {
     width: 40px;
 }
 
-#players .resource {
+.player .resource {
     width: 40px;
     text-align: right;
 }
 
-#players .amount {
+.player .amount {
     width: 70px;
     text-align: center;
 }

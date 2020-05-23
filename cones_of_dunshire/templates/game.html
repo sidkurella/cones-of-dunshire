@@ -24,7 +24,7 @@
             {% for tile in r %}
                 <td>
                     <input type="radio" id="cell_{{ tile.idx }}" name="idx" value="{{ tile.idx }}">
-                    <div class="board">
+                    <div class="board {% if tile.players %}active{% endif %}">
                         <div class="board-biome board-biome-{{ tile.biome|string }}"></div>
                         <div class="board-resource board-resource-{{ tile.resource|string }}"></div>
 
@@ -39,6 +39,15 @@
                         {% endif %}
 
                         <label for="cell_{{ tile.idx }}"></label>
+                        {% if tile.settlement is not none %}
+                        <div class="tag-settlement"></div>
+                        {% endif %}
+                        {% if tile.civilization is not none %}
+                        <div class="tag-civilization"></div>
+                        {% endif %}
+                        {% for p in tile.players %}
+                        <div class="tag-player tag-player-{{ players[p].role|string }}">{{ players[p].role|string|first }}</div>
+                        {% endfor %}
                         <div class="number">{{ tile.number }}</div>
                         <div class="bubble">
                             {{ tile.biome|string }} / {{ tile.resource|string }} Tile
@@ -46,7 +55,10 @@
                                 {% if tile.players %}
                                 <ul>
                                     {% for p in tile.players %}
-                                    <li>{{ players[p].name }}</li>
+                                    <li>
+                                    {{ players[p].name }}
+                                    <em>({{ players[p].role|string }})</em>
+                                    </li>
                                     {% endfor %}
                                 </ul>
                                 {% else %}
@@ -111,6 +123,8 @@
 </table>
 </form>
 </div>
+<div id="player_border"></div>
+<div id="player_wrap">
 <div id="player_side">
 <form action="{{ url_for('dice_roll') }}" method="post">
     <input class="button" type="submit" name="roll" value="Roll Dice"/>
@@ -157,15 +171,12 @@
     <input class="button" type="submit" name="end_turn" value="End Turn"/>
 </form>
 <h2>Players</h2>
-<table id="players">
-    {% for player in players %}
+{% for player in players %}
+<table class="player {% if player.id == turn %}current{% endif %}">
     <tr>
         <td class="name" colspan="6">
             <strong>{{ player.name }}</strong>
             <em>{{ player.role|string }}</em>
-            {% if player.id == turn %}
-                <strong style="float: right; text-align: right;">It's your turn!</strong>
-            {% endif %}
         </td>
     </tr>
     <form action="{{ url_for('cone_update', player=player.id) }}" method="post">
@@ -179,18 +190,19 @@
         </tr>
     </form>
     {% for r in resources %}
-        <form action="{{ url_for('resource_update', player=player.id, resource=r.value) }}" method="post">
-            <tr class="child_row">
-                <td class="resource">{{ r|string }}</td>
-                <td class="amount">{{ player.resources[r.value] }}</td>
-                <td><input class="button" type="submit" name="minus" value="-"/></td>
-                <td><input class="button" type="submit" name="reset" value="0"/></td>
-                <td><input class="button" type="submit" name="plus" value="+"/></td>
-                <td><input type="number" name="delta" min="1" value="1"/></td>
-            </tr>
-        </form>
-    {% endfor %}
+    <form action="{{ url_for('resource_update', player=player.id, resource=r.value) }}" method="post">
+        <tr>
+            <td class="resource">{{ r|string }}</td>
+            <td class="amount">{{ player.resources[r.value] }}</td>
+            <td><input class="button" type="submit" name="minus" value="-"/></td>
+            <td><input class="button" type="submit" name="reset" value="0"/></td>
+            <td><input class="button" type="submit" name="plus" value="+"/></td>
+            <td><input type="number" name="delta" min="1" value="1"/></td>
+        </tr>
+    </form>
     {% endfor %}
 </table>
+{% endfor %}
+</div>
 </div>
 </body>
