@@ -11,6 +11,15 @@
      alt="Cones of Dunshire">
 </img>
 <h2>Setup game</h2>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+                <li class="flash">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
 </div>
 <form action="{{ url_for('player_form') }}" method="post">
     <label for="board_size_r"><strong>Board size:</strong></label>

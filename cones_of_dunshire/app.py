@@ -91,17 +91,28 @@ def player_form():
             ] for r in range(rows)
         ]
         session['players'] = []
+        err = False
         for i in range(session['player_ct']):
-            session['players'].append(
-                Player(
-                    i,
-                    request.form[f'player_{i}'],
-                    Role(int(request.form[f'player_{i}_role'])),
-                ).to_json()
-            )
+            if not request.form.get(f'player_{i}', False):
+                flash(f'You must enter a player name for Player {i+1}.')
+                err = True
+            if not request.form.get(f'player_{i}_role', False):
+                flash(f'You must enter a role for Player {i+1}.')
+                err = True
+            if not err:
+                session['players'].append(
+                    Player(
+                        i,
+                        request.form[f'player_{i}'],
+                        Role(int(request.form[f'player_{i}_role'])),
+                    ).to_json()
+                )
         session['dice_3'] = []
         session['dice'] = []
-        return redirect(url_for('game'))
+        if not err:
+            return redirect(url_for('game'))
+        else:
+            return redirect(url_for('player_setup'))
     elif request.form.get('delete_players', False):
         session['player_ct'] = 0
         return redirect(url_for('player_setup'))
@@ -153,6 +164,16 @@ def resource_update(player, resource):
 
 @app.route('/board_action', methods=['POST'])
 def board_action():
+    err = False
+    if not request.form.get('idx', False):
+        flash('You must select a board tile to act on.')
+        err = True
+    if not request.form.get('player', False):
+        flash('You must select a player to perform that action.')
+        err = True
+    if err:
+        return redirect(url_for('game'))
+
     idx = int(request.form['idx'])
     player = int(request.form['player'])
     board = [
